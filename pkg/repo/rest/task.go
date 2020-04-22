@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"github.com/go-resty/resty/v2"
+
 	"github.com/spacetab-io/solar-staff-sdk-go/pkg/contracts"
 	"github.com/spacetab-io/solar-staff-sdk-go/pkg/models"
 )
@@ -14,6 +16,19 @@ func (r *Repo) GetTaskByID(taskID uint64) (*models.Task, error) {
 		return nil, err
 	}
 
+	return getTaskData(err, resp)
+}
+
+func (r *Repo) GetTaskByMerchantTransaction(customerTaskID string) (*models.Task, error) {
+	resp, err := r.sendPOST("task", map[string]interface{}{"action": "search", "merchant_transaction": customerTaskID})
+	if err != nil {
+		return nil, err
+	}
+
+	return getTaskData(err, resp)
+}
+
+func getTaskData(err error, resp *resty.Response) (*models.Task, error) {
 	var data struct {
 		Success  bool
 		Code     int
@@ -26,8 +41,4 @@ func (r *Repo) GetTaskByID(taskID uint64) (*models.Task, error) {
 	}
 
 	return data.Response.ToModel()
-}
-
-func (r *Repo) GetTaskByMerchantTransaction(transaction string) (*models.Task, error) {
-	return nil, nil
 }

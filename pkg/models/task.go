@@ -5,7 +5,7 @@ type AttributeValue string
 
 type Task struct {
 	ID                    uint64
-	MerchantTransaction   string
+	CustomerTask          string     `json:"merchantTransaction"`
 	PaymentStatus         TaskStatus `json:"state"`
 	Category              TaskCategory
 	SubCategory           TaskSubCategory

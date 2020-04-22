@@ -38,7 +38,7 @@ func (tr TaskResponse) ToModel() (*models.Task, error) {
 
 	return &models.Task{
 		ID:                    tr.ID,
-		MerchantTransaction:   tr.MerchantTransaction,
+		CustomerTask:          tr.MerchantTransaction,
 		PaymentStatus:         tr.PaymentStatus,
 		Category:              tr.Category,
 		SubCategory:           tr.SubCategory,
